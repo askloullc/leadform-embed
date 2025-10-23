@@ -1,5 +1,5 @@
 {
-  "name": "@loubase/leadform-embed",
+  "name": "@askloullc/leadform-embed",
   "version": "1.0.0",
   "private": false,
   "type": "module",
@@ -50,9 +50,8 @@
   "description": "Embeddable lead capture form widget for websites",
   "repository": {
     "type": "git",
-    "url": "https://github.com/askloullc/loubase",
-    "directory": "packages/leadform-embed"
+    "url": "https://github.com/askloullc/leadform-embed"
   },
   "license": "UNLICENSED",
-  "author": "Lou LLC"
+  "author": "Ask Lou LLC"
 }
