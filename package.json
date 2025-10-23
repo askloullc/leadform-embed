@@ -23,7 +23,9 @@
       "require": "./dist/simple.cjs.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "pnpm run build:core && pnpm run build:simple",
     "build:core": "tsup --config tsup.config.ts",
@@ -46,11 +48,16 @@
   "peerDependencies": {
     "react": ">=16.8.0"
   },
-  "keywords": ["lead-form", "embed", "widget", "conversion"],
+  "keywords": [
+    "lead-form",
+    "embed",
+    "widget",
+    "conversion"
+  ],
   "description": "Embeddable lead capture form widget for websites",
   "repository": {
     "type": "git",
-    "url": "https://github.com/askloullc/leadform-embed"
+    "url": "git+https://github.com/askloullc/leadform-embed.git"
   },
   "license": "UNLICENSED",
   "author": "Ask Lou LLC"
