@@ -14,44 +14,44 @@ import {
   marketingConsentText,
   validateEmail,
   validatePhone,
-} from './types'
-export type EventType = 'open' | 'close' | 'submit' | 'error'
+} from "./types";
+export type EventType = "open" | "close" | "submit" | "error";
 
 class LeadFormWidget {
-  private config: LeadFormWidgetConfig
-  private container: HTMLDivElement
-  private isVisible: boolean = false
-  private isSubmitting: boolean = false
-  private formStartTime: number = 0
-  private idempotencyKey: string = ''
-  private deviceFingerprint: DeviceFingerprint
-  private eventListeners: Map<EventType, Set<Function>> = new Map()
-  private consentText: string
-  private marketingConsentText: string
+  private config: LeadFormWidgetConfig;
+  private container: HTMLDivElement;
+  private isVisible: boolean = false;
+  private isSubmitting: boolean = false;
+  private formStartTime: number = 0;
+  private idempotencyKey: string = "";
+  private deviceFingerprint: DeviceFingerprint;
+  private eventListeners: Map<EventType, Set<Function>> = new Map();
+  private consentText: string;
+  private marketingConsentText: string;
 
   constructor(config: LeadFormWidgetConfig) {
-    this.config = this.validateConfig(config)
-    this.container = document.createElement('div')
-    this.deviceFingerprint = this.generateDeviceFingerprint()
-    this.validateOrigin()
-    this.init()
-    document.addEventListener('keydown', this.onKeydown)
-    this.consentText = consentText
-    this.marketingConsentText = marketingConsentText
+    this.config = this.validateConfig(config);
+    this.container = document.createElement("div");
+    this.deviceFingerprint = this.generateDeviceFingerprint();
+    this.validateOrigin();
+    this.init();
+    document.addEventListener("keydown", this.onKeydown);
+    this.consentText = consentText;
+    this.marketingConsentText = marketingConsentText;
   }
 
   private onKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && this.isVisible) {
-      this.hide()
+    if (e.key === "Escape" && this.isVisible) {
+      this.hide();
     }
-  }
+  };
 
   private validateConfig(config: LeadFormWidgetConfig): LeadFormWidgetConfig {
     if (!config.siteSlug) {
-      throw new Error('LeadForm: siteSlug is required')
+      throw new Error("LeadForm: siteSlug is required");
     }
     if (!config.sitePublicKey) {
-      throw new Error('LeadForm: sitePublicKey is required')
+      throw new Error("LeadForm: sitePublicKey is required");
     }
 
     return {
@@ -60,34 +60,34 @@ class LeadFormWidget {
       subtitle:
         config.subtitle ||
         "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
-      closeButtonLabel: config.closeButtonLabel || 'Close',
-      nameFieldLabel: config.nameFieldLabel || 'Name',
-      emailFieldLabel: config.emailFieldLabel || 'Email',
-      companyFieldLabel: config.companyFieldLabel || 'Company',
-      phoneFieldLabel: config.phoneFieldLabel || 'Phone',
-      messageFieldLabel: config.messageFieldLabel || 'Message',
-      nameFieldPlaceholder: config.nameFieldPlaceholder || 'Your name',
+      closeButtonLabel: config.closeButtonLabel || "Close",
+      nameFieldLabel: config.nameFieldLabel || "Name",
+      emailFieldLabel: config.emailFieldLabel || "Email",
+      companyFieldLabel: config.companyFieldLabel || "Company",
+      phoneFieldLabel: config.phoneFieldLabel || "Phone",
+      messageFieldLabel: config.messageFieldLabel || "Message",
+      nameFieldPlaceholder: config.nameFieldPlaceholder || "Your name",
       emailFieldPlaceholder:
-        config.emailFieldPlaceholder || 'your.email@example.com',
-      companyFieldPlaceholder: config.companyFieldPlaceholder || 'Your company',
-      phoneFieldPlaceholder: config.phoneFieldPlaceholder || '(555) 123-4567',
+        config.emailFieldPlaceholder || "your.email@example.com",
+      companyFieldPlaceholder: config.companyFieldPlaceholder || "Your company",
+      phoneFieldPlaceholder: config.phoneFieldPlaceholder || "(555) 123-4567",
       messageFieldPlaceholder:
-        config.messageFieldPlaceholder || 'Tell us about your project...',
-      successTitle: config.successTitle || config.successMessage || 'Success',
+        config.messageFieldPlaceholder || "Tell us about your project...",
+      successTitle: config.successTitle || config.successMessage || "Success",
       successSubtitle: config.successSubtitle || "We'll get back to you soon!",
-    }
+    };
   }
 
   private validateOrigin(): void {
-    const origin = window.location.origin
-    const protocol = window.location.protocol
+    const origin = window.location.origin;
+    const protocol = window.location.protocol;
 
     if (
-      protocol !== 'https:' &&
-      protocol !== 'http:' &&
-      origin !== 'http://localhost:3000'
+      protocol !== "https:" &&
+      protocol !== "http:" &&
+      origin !== "http://localhost:3000"
     ) {
-      console.warn('LeadForm: HTTPS is required for production use')
+      console.warn("LeadForm: HTTPS is required for production use");
     }
   }
 
@@ -99,55 +99,55 @@ class LeadFormWidget {
       platform: navigator.platform,
       cookieEnabled: navigator.cookieEnabled,
       doNotTrack: navigator.doNotTrack,
-    }
+    };
   }
 
   private emit(event: EventType, data?: any): void {
-    const listeners = this.eventListeners.get(event)
+    const listeners = this.eventListeners.get(event);
     if (listeners) {
-      listeners.forEach(callback => {
+      listeners.forEach((callback) => {
         try {
-          callback(data)
+          callback(data);
         } catch (error) {
-          console.error(`Error in ${event} event listener:`, error)
+          console.error(`Error in ${event} event listener:`, error);
         }
-      })
+      });
     }
   }
 
   public on(event: EventType, callback: Function): void {
     if (!this.eventListeners.has(event)) {
-      this.eventListeners.set(event, new Set())
+      this.eventListeners.set(event, new Set());
     }
-    this.eventListeners.get(event)!.add(callback)
+    this.eventListeners.get(event)!.add(callback);
   }
 
   public off(event: EventType, callback: Function): void {
-    const listeners = this.eventListeners.get(event)
+    const listeners = this.eventListeners.get(event);
     if (listeners) {
-      listeners.delete(callback)
+      listeners.delete(callback);
     }
   }
 
   private init(): void {
-    this.injectStyles()
-    this.createForm()
-    this.createFloatingTrigger()
-    this.attachEventListeners()
+    this.injectStyles();
+    this.createForm();
+    this.createFloatingTrigger();
+    this.attachEventListeners();
 
-    document.body.appendChild(this.container)
+    document.body.appendChild(this.container);
   }
 
   private injectStyles(): void {
     // Check if styles are already injected
-    if (document.getElementById('leadform-widget-styles')) {
-      return
+    if (document.getElementById("leadform-widget-styles")) {
+      return;
     }
 
-    const style = document.createElement('style')
-    style.id = 'leadform-widget-styles'
+    const style = document.createElement("style");
+    style.id = "leadform-widget-styles";
     const accentColor =
-      this.normalizeColor(this.config.accentColorHex) || '#3b82f6'
+      this.normalizeColor(this.config.accentColorHex) || "#3b82f6";
 
     style.textContent = `
       .leadform-widget {
@@ -455,44 +455,46 @@ class LeadFormWidget {
           width: auto;
         }
       }
-    `
-    document.head.appendChild(style)
+    `;
+    document.head.appendChild(style);
   }
 
   private normalizeColor(input?: string): string | null {
-    if (!input) return null
+    if (!input) return null;
     // Allow only hex colors (#rgb, #rrggbb, #rrggbbaa)
     if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(input)) {
-      return input
+      return input;
     }
     // Use the browser to validate/normalize
-    const el = document.createElement('div')
-    el.style.color = ''
-    el.style.color = input
-    return el.style.color ? getComputedStyle(el).color : null
+    const el = document.createElement("div");
+    el.style.color = "";
+    el.style.color = input;
+    return el.style.color ? getComputedStyle(el).color : null;
   }
 
   private createForm(): void {
-    this.formStartTime = Date.now()
-    this.idempotencyKey = generateIdempotencyKey()
+    this.formStartTime = Date.now();
+    this.idempotencyKey = generateIdempotencyKey();
 
-    this.container.className = 'leadform-widget'
-    this.container.setAttribute('data-theme', this.config.theme)
+    this.container.className = "leadform-widget";
+    this.container.setAttribute("data-theme", this.config.theme);
 
-    const formContainer = document.createElement('div')
-    formContainer.className = `leadform-container ${this.config.position}`
+    const formContainer = document.createElement("div");
+    formContainer.className = `leadform-container ${this.config.position}`;
 
     const honeypotField = `
       <div class="leadform-field hidden">
         <label class="leadform-label" for="leadform-website">Website</label>
         <input class="leadform-input" type="text" name="website" id="leadform-website" tabindex="-1" autocomplete="off">
       </div>
-    `
+    `;
 
-    const consentFields = this.generateConsentFields()
+    const consentFields = this.generateConsentFields();
 
     formContainer.innerHTML = `
-      <button class="leadform-close" type="button" aria-label="${this.config.closeButtonLabel}">
+      <button class="leadform-close" type="button" aria-label="${
+        this.config.closeButtonLabel
+      }">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -511,13 +513,13 @@ class LeadFormWidget {
           <div class="leadform-spinner" style="display: none;"></div>
         </button>
       </form>
-    `
+    `;
 
-    this.container.appendChild(formContainer)
+    this.container.appendChild(formContainer);
   }
 
   private generateConsentFields(): string {
-    let consentFields = ''
+    let consentFields = "";
 
     // Required consent (privacy/data handling)
     if (this.config.requireConsent) {
@@ -528,7 +530,7 @@ class LeadFormWidget {
             ${this.consentText}
           </label>
         </div>
-      `
+      `;
     }
 
     // Marketing consent (optional)
@@ -540,10 +542,10 @@ class LeadFormWidget {
             ${this.marketingConsentText}
           </label>
         </div>
-      `
+      `;
     }
 
-    return consentFields
+    return consentFields;
   }
 
   private generateFields(): string {
@@ -553,96 +555,104 @@ class LeadFormWidget {
     > = {
       name: {
         label: this.config.nameFieldLabel!,
-        type: 'text',
+        type: "text",
         placeholder: this.config.nameFieldPlaceholder!,
         required: true,
       },
       email: {
         label: this.config.emailFieldLabel!,
-        type: 'email',
+        type: "email",
         placeholder: this.config.emailFieldPlaceholder!,
         required: true,
       },
       company: {
         label: this.config.companyFieldLabel!,
-        type: 'text',
+        type: "text",
         placeholder: this.config.companyFieldPlaceholder!,
         required: false,
       },
       phone: {
         label: this.config.phoneFieldLabel!,
-        type: 'tel',
+        type: "tel",
         placeholder: this.config.phoneFieldPlaceholder!,
         required: false,
       },
       message: {
         label: this.config.messageFieldLabel!,
-        type: 'textarea',
+        type: "textarea",
         placeholder: this.config.messageFieldPlaceholder!,
         required: false,
       },
-    }
+    };
 
     return this.config.fields
-      .map(fieldName => {
-        const field = fieldMap[fieldName]
-        if (!field) return ''
+      .map((fieldName) => {
+        const field = fieldMap[fieldName];
+        if (!field) return "";
 
-        const isTextarea = field.type === 'textarea'
-        const fieldId = `leadform-${fieldName}`
+        const isTextarea = field.type === "textarea";
+        const fieldId = `leadform-${fieldName}`;
         const inputElement = isTextarea
-          ? `<textarea class="leadform-input leadform-textarea" name="${fieldName}" id="${fieldId}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}></textarea>`
-          : `<input class="leadform-input" type="${field.type}" name="${fieldName}" id="${fieldId}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>`
+          ? `<textarea class="leadform-input leadform-textarea" name="${fieldName}" id="${fieldId}" placeholder="${
+              field.placeholder
+            }" ${field.required ? "required" : ""}></textarea>`
+          : `<input class="leadform-input" type="${
+              field.type
+            }" name="${fieldName}" id="${fieldId}" placeholder="${
+              field.placeholder
+            }" ${field.required ? "required" : ""}>`;
 
         return `
         <div class="leadform-field">
-          <label class="leadform-label" for="${fieldId}">${field.label}${field.required ? ' *' : ''}</label>
+          <label class="leadform-label" for="${fieldId}">${field.label}${
+          field.required ? " *" : ""
+        }</label>
           ${inputElement}
           <div class="leadform-error" id="${fieldId}-error"></div>
         </div>
-      `
+      `;
       })
-      .join('')
+      .join("");
   }
 
   private createFloatingTrigger(): void {
-    const trigger = document.createElement('button')
-    trigger.className = 'leadform-trigger'
+    const trigger = document.createElement("button");
+    trigger.className = "leadform-trigger";
     trigger.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
       </svg>
-    `
-    trigger.setAttribute('aria-label', 'Open contact form')
+    `;
+    trigger.setAttribute("aria-label", "Open contact form");
 
-    trigger.addEventListener('click', () => this.toggle())
-    this.container.appendChild(trigger)
+    trigger.addEventListener("click", () => this.toggle());
+    this.container.appendChild(trigger);
   }
 
   private attachEventListeners(): void {
     const form = this.container.querySelector(
-      '.leadform-form'
-    ) as HTMLFormElement
+      ".leadform-form"
+    ) as HTMLFormElement;
     const closeButton = this.container.querySelector(
-      '.leadform-close'
-    ) as HTMLButtonElement
+      ".leadform-close"
+    ) as HTMLButtonElement;
 
     if (closeButton) {
-      closeButton.addEventListener('click', () => this.hide())
+      closeButton.addEventListener("click", () => this.hide());
     }
 
     if (form) {
-      form.addEventListener('submit', e => this.handleSubmit(e))
+      form.addEventListener("submit", (e) => this.handleSubmit(e));
     }
 
     // Listen for email input changes to show/hide marketing consent
     if (this.config.requireMarketingConsent) {
       const emailInput = this.container.querySelector(
         'input[name="email"]'
-      ) as HTMLInputElement
+      ) as HTMLInputElement;
       if (emailInput) {
-        emailInput.addEventListener('input', () => this.handleEmailChange())
-        emailInput.addEventListener('blur', () => this.handleEmailChange())
+        emailInput.addEventListener("input", () => this.handleEmailChange());
+        emailInput.addEventListener("blur", () => this.handleEmailChange());
       }
     }
   }
@@ -650,80 +660,83 @@ class LeadFormWidget {
   private handleEmailChange(): void {
     const emailInput = this.container.querySelector(
       'input[name="email"]'
-    ) as HTMLInputElement
+    ) as HTMLInputElement;
     const marketingConsentField = this.container.querySelector(
-      '#leadform-marketing-consent-field'
-    ) as HTMLDivElement
+      "#leadform-marketing-consent-field"
+    ) as HTMLDivElement;
 
-    if (!emailInput || !marketingConsentField) return
+    if (!emailInput || !marketingConsentField) return;
 
-    const email = emailInput.value
-    const isValidEmail = validateEmail(email)
+    const email = emailInput.value;
+    const isValidEmail = validateEmail(email);
 
     if (isValidEmail) {
-      marketingConsentField.style.display = 'flex'
+      marketingConsentField.style.display = "flex";
     } else {
-      marketingConsentField.style.display = 'none'
+      marketingConsentField.style.display = "none";
     }
   }
 
   private async handleSubmit(e: Event): Promise<void> {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (this.isSubmitting) return
+    if (this.isSubmitting) return;
 
-    const form = e.target as HTMLFormElement
-    const formData = new FormData(form)
-    const data: LeadFormData = {}
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data: LeadFormData = {};
 
     // Clear previous errors
-    this.clearErrors()
+    this.clearErrors();
 
     // Check honeypot field
-    const honeypotValue = formData.get('website') as string
-    if (honeypotValue && honeypotValue.trim() !== '') {
-      console.warn('LeadForm: Honeypot field filled, likely spam')
-      this.showError('Honeypot field filled')
-      this.emit('error', { type: 'honeypot', message: 'Honeypot field filled' })
-      return
+    const honeypotValue = formData.get("website") as string;
+    if (honeypotValue && honeypotValue.trim() !== "") {
+      console.warn("LeadForm: Honeypot field filled, likely spam");
+      this.showError("Honeypot field filled");
+      this.emit("error", {
+        type: "honeypot",
+        message: "Honeypot field filled",
+      });
+      return;
     }
 
     // Check submission timing
-    const submissionTime = Date.now() - this.formStartTime
+    const submissionTime = Date.now() - this.formStartTime;
     if (submissionTime < 3000) {
-      console.warn('LeadForm: Form submitted too quickly, likely spam')
-      this.showError('Form submitted too quickly')
-      this.emit('error', {
-        type: 'timing',
-        message: 'Form submitted too quickly',
-      })
-      return
+      console.warn("LeadForm: Form submitted too quickly, likely spam");
+      this.showError("Form submitted too quickly");
+      this.emit("error", {
+        type: "timing",
+        message: "Form submitted too quickly",
+      });
+      return;
     }
 
     // Get marketing consent status
-    const marketingConsentGiven = formData.get('marketingConsent') === 'on'
+    const marketingConsentGiven = formData.get("marketingConsent") === "on";
 
     // Collect form data (excluding honeypot and consent checkboxes)
     formData.forEach((value, key) => {
       if (
-        key !== 'consent' &&
-        key !== 'marketingConsent' &&
-        key !== 'website'
+        key !== "consent" &&
+        key !== "marketingConsent" &&
+        key !== "website"
       ) {
-        data[key] = value as string
+        data[key] = value as string;
       }
-    })
+    });
 
     // Basic validation
     if (!this.validateForm(data)) {
-      this.emit('error', {
-        type: 'validation',
-        message: 'Form validation failed',
-      })
-      return
+      this.emit("error", {
+        type: "validation",
+        message: "Form validation failed",
+      });
+      return;
     }
 
-    this.setSubmitting(true)
+    this.setSubmitting(true);
 
     try {
       const result = await this.submitLead(
@@ -739,34 +752,34 @@ class LeadFormWidget {
               marketingConsentGiven,
             }
           : null
-      )
+      );
 
-      this.emit('submit', { data, result })
-      this.showSuccess()
+      this.emit("submit", { data, result });
+      this.showSuccess();
       // Auto-hide after success
-      setTimeout(() => this.hide(), 3000)
+      setTimeout(() => this.hide(), 3000);
     } catch (error) {
-      this.showError('Failed to submit form')
-      this.emit('error', {
-        type: 'submission',
-        message: 'Failed to submit form',
+      this.showError("Failed to submit form");
+      this.emit("error", {
+        type: "submission",
+        message: "Failed to submit form",
         error,
-      })
-      console.error('Lead form submission error:', error)
+      });
+      console.error("Lead form submission error:", error);
     } finally {
-      this.setSubmitting(false)
+      this.setSubmitting(false);
     }
   }
 
   private validateForm(data: LeadFormData): boolean {
-    let isValid = true
+    let isValid = true;
 
     // Check if form includes email and/or phone fields
-    const hasEmailField = this.config.fields.includes('email')
-    const hasPhoneField = this.config.fields.includes('phone')
+    const hasEmailField = this.config.fields.includes("email");
+    const hasPhoneField = this.config.fields.includes("phone");
 
     // Individual field validation
-    this.config.fields.forEach(fieldName => {
+    this.config.fields.forEach((fieldName) => {
       const fieldMap: Record<
         string,
         { required: boolean; validate?: (value: string) => boolean }
@@ -782,91 +795,91 @@ class LeadFormWidget {
           validate: (value: string) => validatePhone(value),
         },
         message: { required: false },
-      }
+      };
 
-      const field = fieldMap[fieldName]
-      const value = data[fieldName] || ''
+      const field = fieldMap[fieldName];
+      const value = data[fieldName] || "";
 
       // Skip required check for email and phone if we need to validate them together
       const skipRequiredCheck =
-        (fieldName === 'email' || fieldName === 'phone') &&
+        (fieldName === "email" || fieldName === "phone") &&
         hasEmailField &&
-        hasPhoneField
+        hasPhoneField;
 
       if (field?.required && !skipRequiredCheck && !value.trim()) {
-        this.showFieldError(fieldName, 'This field is required')
-        isValid = false
+        this.showFieldError(fieldName, "This field is required");
+        isValid = false;
       } else if (value && field?.validate && !field.validate(value)) {
-        if (fieldName === 'email') {
-          this.showFieldError(fieldName, 'Please enter a valid email address')
-        } else if (fieldName === 'phone') {
-          this.showFieldError(fieldName, 'Please enter a valid phone number')
+        if (fieldName === "email") {
+          this.showFieldError(fieldName, "Please enter a valid email address");
+        } else if (fieldName === "phone") {
+          this.showFieldError(fieldName, "Please enter a valid phone number");
         }
-        isValid = false
+        isValid = false;
       }
-    })
+    });
 
     // Special validation: if both email and phone are present, require at least one
     if (hasEmailField && hasPhoneField) {
-      const email = data.email || ''
-      const phone = data.phone || ''
+      const email = data.email || "";
+      const phone = data.phone || "";
 
-      const hasValidEmail = email.trim() && validateEmail(email)
-      const hasValidPhone = phone.trim() && validatePhone(phone)
+      const hasValidEmail = email.trim() && validateEmail(email);
+      const hasValidPhone = phone.trim() && validatePhone(phone);
 
       if (!hasValidEmail && !hasValidPhone) {
         this.showFieldError(
-          'email',
-          'Please provide either a valid email or phone number'
-        )
+          "email",
+          "Please provide either a valid email or phone number"
+        );
         this.showFieldError(
-          'phone',
-          'Please provide either a valid email or phone number'
-        )
-        isValid = false
+          "phone",
+          "Please provide either a valid email or phone number"
+        );
+        isValid = false;
       }
     }
 
-    return isValid
+    return isValid;
   }
 
   private showFieldError(fieldName: string, message: string): void {
     const errorElement = this.container.querySelector(
       `#leadform-${fieldName}-error`
-    ) as HTMLDivElement
+    ) as HTMLDivElement;
     if (errorElement) {
-      errorElement.textContent = message
+      errorElement.textContent = message;
     }
   }
 
   private clearErrors(): void {
-    const errorElements = this.container.querySelectorAll('.leadform-error')
-    errorElements.forEach(element => {
-      element.textContent = ''
-    })
+    const errorElements = this.container.querySelectorAll(".leadform-error");
+    errorElements.forEach((element) => {
+      element.textContent = "";
+    });
   }
 
   private showError(message: string): void {
-    console.error(message)
+    console.error(message);
   }
 
   private setSubmitting(isSubmitting: boolean): void {
-    this.isSubmitting = isSubmitting
+    this.isSubmitting = isSubmitting;
     const submitButton = this.container.querySelector(
-      '.leadform-submit'
-    ) as HTMLButtonElement
+      ".leadform-submit"
+    ) as HTMLButtonElement;
     const spinner = this.container.querySelector(
-      '.leadform-spinner'
-    ) as HTMLDivElement
+      ".leadform-spinner"
+    ) as HTMLDivElement;
 
     if (submitButton) {
-      submitButton.disabled = isSubmitting
+      submitButton.disabled = isSubmitting;
       if (isSubmitting) {
-        submitButton.classList.add('leadform-submit-loading')
-        spinner.style.display = 'block'
+        submitButton.classList.add("leadform-submit-loading");
+        spinner.style.display = "block";
       } else {
-        submitButton.classList.remove('leadform-submit-loading')
-        spinner.style.display = 'none'
+        submitButton.classList.remove("leadform-submit-loading");
+        spinner.style.display = "none";
       }
     }
   }
@@ -876,13 +889,13 @@ class LeadFormWidget {
     consentEvent: ConsentEvent | null
   ): Promise<void> {
     const apiEndpoint =
-      this.config.apiEndpoint || 'https://api.loubase.com/leads'
+      this.config.apiEndpoint || "https://api.loubase.com/leads";
 
     const payload: CaptureLeadPayload = {
       siteSlug: this.config.siteSlug,
       sitePublicKey: this.config.sitePublicKey,
       formData: data,
-      source: 'embed',
+      source: "embed",
       timestamp: new Date().toISOString(),
       url: window.location.href,
       userAgent: navigator.userAgent,
@@ -890,28 +903,28 @@ class LeadFormWidget {
       consentEvent,
       submissionTime: Date.now() - this.formStartTime,
       idempotencyKey: this.idempotencyKey,
-    }
+    };
 
     const response = await fetch(apiEndpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-Idempotency-Key': this.idempotencyKey,
+        "Content-Type": "application/json",
+        "X-Idempotency-Key": this.idempotencyKey,
       },
       body: JSON.stringify(payload),
-    })
+    });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return response.json()
+    return response.json();
   }
 
   private showSuccess(): void {
     const formContainer = this.container.querySelector(
-      '.leadform-container'
-    ) as HTMLDivElement
+      ".leadform-container"
+    ) as HTMLDivElement;
     formContainer.innerHTML = `
       <button class="leadform-close" aria-label="${this.config.closeButtonLabel}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -927,143 +940,143 @@ class LeadFormWidget {
         <h3 style="margin: 0 0 8px 0;">${this.config.successTitle}</h3>
         <p style="margin: 0; color: var(--leadform-muted-foreground); font-size: 14px;">${this.config.successSubtitle}</p>
       </div>
-    `
+    `;
 
     // Attach close event listener for the success message
     const closeButton = this.container.querySelector(
-      '.leadform-close'
-    ) as HTMLButtonElement
+      ".leadform-close"
+    ) as HTMLButtonElement;
     if (closeButton) {
-      closeButton.addEventListener('click', () => this.hide())
+      closeButton.addEventListener("click", () => this.hide());
     }
   }
 
   public show(): void {
     const formContainer = this.container.querySelector(
-      '.leadform-container'
-    ) as HTMLDivElement
+      ".leadform-container"
+    ) as HTMLDivElement;
     if (formContainer) {
-      formContainer.classList.add('visible')
-      formContainer.setAttribute('aria-hidden', 'false')
-      formContainer.setAttribute('role', 'dialog')
-      formContainer.setAttribute('aria-modal', 'true')
+      formContainer.classList.add("visible");
+      formContainer.setAttribute("aria-hidden", "false");
+      formContainer.setAttribute("role", "dialog");
+      formContainer.setAttribute("aria-modal", "true");
     }
 
-    this.isVisible = true
-    this.emit('open')
+    this.isVisible = true;
+    this.emit("open");
   }
 
   public hide(): void {
     const formContainer = this.container.querySelector(
-      '.leadform-container'
-    ) as HTMLDivElement
+      ".leadform-container"
+    ) as HTMLDivElement;
     if (formContainer) {
-      formContainer.classList.remove('visible')
-      formContainer.setAttribute('aria-hidden', 'true')
+      formContainer.classList.remove("visible");
+      formContainer.setAttribute("aria-hidden", "true");
     }
 
-    this.isVisible = false
-    this.emit('close')
+    this.isVisible = false;
+    this.emit("close");
   }
 
   public toggle(): void {
     if (this.isVisible) {
-      this.hide()
+      this.hide();
     } else {
-      this.show()
+      this.show();
     }
   }
 
   public destroy(): void {
-    document.removeEventListener('keydown', this.onKeydown)
+    document.removeEventListener("keydown", this.onKeydown);
 
     if (this.container.parentNode) {
-      this.container.parentNode.removeChild(this.container)
+      this.container.parentNode.removeChild(this.container);
     }
 
     // Remove styles if no other widgets exist
-    const existingWidgets = document.querySelectorAll('.leadform-widget')
+    const existingWidgets = document.querySelectorAll(".leadform-widget");
     if (existingWidgets.length === 0) {
-      const styleElement = document.getElementById('leadform-widget-styles')
+      const styleElement = document.getElementById("leadform-widget-styles");
       if (styleElement) {
-        styleElement.remove()
+        styleElement.remove();
       }
     }
 
-    this.eventListeners.clear()
+    this.eventListeners.clear();
   }
 }
 
 // Global API
 declare global {
   interface Window {
-    LeadFormWidget: typeof LeadFormWidget
+    LeadFormWidget: typeof LeadFormWidget;
     LeadForm: {
-      open: () => void
-      close: () => void
-      on: (event: EventType, callback: Function) => void
-      destroy: () => void
-      version: string
-    }
+      open: () => void;
+      close: () => void;
+      on: (event: EventType, callback: Function) => void;
+      destroy: () => void;
+      version: string;
+    };
   }
 }
 
 // Global instance
-let globalWidget: LeadFormWidget | null = null
+let globalWidget: LeadFormWidget | null = null;
 
 // Export LeadFormWidget for direct use
-window.LeadFormWidget = LeadFormWidget
+window.LeadFormWidget = LeadFormWidget;
 
 window.LeadForm = {
   open: () => {
     if (!globalWidget) {
-      const config = getConfigFromScript()
+      const config = getConfigFromScript();
       if (config) {
-        globalWidget = new LeadFormWidget(config)
+        globalWidget = new LeadFormWidget(config);
       }
     }
-    globalWidget?.show()
+    globalWidget?.show();
   },
 
   close: () => {
-    globalWidget?.hide()
+    globalWidget?.hide();
   },
 
   on: (event: EventType, callback: Function) => {
-    globalWidget?.on(event, callback)
+    globalWidget?.on(event, callback);
   },
 
   destroy: () => {
-    globalWidget?.destroy()
-    globalWidget = null
+    globalWidget?.destroy();
+    globalWidget = null;
   },
 
-  version: '1.0.0',
-}
+  version: "1.0.0",
+};
 
 function getConfigFromScript(): LeadFormWidgetConfig | null {
-  const scripts = document.querySelectorAll('script[data-site-id]')
-  const script = scripts[scripts.length - 1] as HTMLScriptElement
+  const scripts = document.querySelectorAll("script[data-site-id]");
+  const script = scripts[scripts.length - 1] as HTMLScriptElement;
 
-  if (!script || !script.dataset.siteId) return null
+  if (!script || !script.dataset.siteId) return null;
 
-  if (!script.dataset.siteSlug || !script.dataset.sitePublicKey) return null
+  if (!script.dataset.siteSlug || !script.dataset.sitePublicKey) return null;
 
   return {
     siteSlug: script.dataset.siteSlug,
     sitePublicKey: script.dataset.sitePublicKey,
-    theme: (script.dataset.theme as LeadFormWidgetConfig['theme']) || 'auto',
+    theme: (script.dataset.theme as LeadFormWidgetConfig["theme"]) || "auto",
     position:
-      (script.dataset.position as LeadFormWidgetConfig['position']) ||
-      'bottom-right',
-    fields: script.dataset.fields?.split(',') || ['name', 'email', 'message'],
-    title: script.dataset.title || 'Get in touch',
-    buttonText: script.dataset.buttonText || 'Contact us',
+      (script.dataset.position as LeadFormWidgetConfig["position"]) ||
+      "bottom-right",
+    fields: script.dataset.fields?.split(",") || ["name", "email", "message"],
+    title: script.dataset.title || "Get in touch",
+    buttonText: script.dataset.buttonText || "Contact us",
     successMessage:
       script.dataset.successMessage || "Thanks — we'll reply ASAP.",
-    requireConsent: script.dataset.requireConsent === 'true',
-    requireMarketingConsent: script.dataset.requireMarketingConsent === 'true',
-    accentColorHex: script.dataset.accentColorHex || '#3b82f6',
+    requireConsent: script.dataset.requireConsent === "true",
+    requireMarketingConsent: script.dataset.requireMarketingConsent === "true",
+    accentColorHex: script.dataset.accentColorHex || "#3b82f6",
     // configurable text fields
     subtitle: script.dataset.subtitle,
     closeButtonLabel: script.dataset.closeButtonLabel,
@@ -1080,22 +1093,24 @@ function getConfigFromScript(): LeadFormWidgetConfig | null {
     successTitle: script.dataset.successTitle,
     successSubtitle: script.dataset.successSubtitle,
     apiEndpoint: script.dataset.apiEndpoint,
-  }
+  };
 }
 
 // Auto-initialization from script tag attributes
 function initFromScript(): void {
-  const config = getConfigFromScript()
-  if (!config) return
+  const config = getConfigFromScript();
+  if (!config) return;
 
-  globalWidget = new LeadFormWidget(config)
+  globalWidget = new LeadFormWidget(config);
 }
 
 // Auto-init if DOM is ready, otherwise wait
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initFromScript)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initFromScript);
 } else {
-  initFromScript()
+  initFromScript();
 }
 
-export { LeadFormWidget, type LeadFormData, type LeadFormWidgetConfig }
+export { LeadFormWidget, type LeadFormData, type LeadFormWidgetConfig };
+export { SimpleLeadForm } from "./simple-form";
+export type { SimpleLeadFormProps } from "./simple-form";

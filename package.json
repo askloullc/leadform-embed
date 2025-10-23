@@ -16,24 +16,17 @@
       "types": "./dist/react.d.ts",
       "import": "./dist/react.esm.js",
       "require": "./dist/react.cjs.js"
-    },
-    "./simple": {
-      "types": "./dist/simple.d.ts",
-      "import": "./dist/simple.esm.js",
-      "require": "./dist/simple.cjs.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "pnpm run build:core && pnpm run build:simple",
+    "build": "pnpm run build:core",
     "build:core": "tsup --config tsup.config.ts",
-    "build:simple": "tsup --config tsup.simple.config.ts",
     "typecheck": "tsc --noEmit",
-    "dev": "concurrently \"pnpm run dev:core\" \"pnpm run dev:simple\"",
+    "dev": "pnpm run dev:core",
     "dev:core": "tsup --config tsup.config.ts --watch",
-    "dev:simple": "tsup --config tsup.simple.config.ts --watch",
     "preview": "pnpm run build && open dev-server.html",
     "serve": "python3 -m http.server 3000",
     "clean": "rm -rf dist"

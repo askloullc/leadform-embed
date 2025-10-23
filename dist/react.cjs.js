@@ -1,5 +1,31 @@
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/react.ts
+var react_exports = {};
+__export(react_exports, {
+  SimpleLeadForm: () => SimpleLeadForm
+});
+module.exports = __toCommonJS(react_exports);
+
 // src/simple-form.tsx
-import { useCallback, useEffect, useRef, useState } from "react";
+var import_react = require("react");
 
 // src/types.ts
 var consentText = "We value your privacy. By submitting this form, you consent to us storing your details for the purpose of responding to your request.";
@@ -60,7 +86,7 @@ function validatePhone(phone) {
 }
 
 // src/simple-form.tsx
-import { jsx, jsxs } from "react/jsx-runtime";
+var import_jsx_runtime = require("react/jsx-runtime");
 var DEFAULT_CONFIG = {
   theme: "auto",
   fields: ["name", "email", "message"],
@@ -97,22 +123,22 @@ var SimpleLeadForm = ({
   mockSubmit = false,
   ...configOverrides
 }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [formData, setFormData] = useState({});
-  const [showMarketingConsent, setShowMarketingConsent] = useState(false);
-  const [submissionStartTime, setSubmissionStartTime] = useState(
+  const [isSubmitting, setIsSubmitting] = (0, import_react.useState)(false);
+  const [isSuccess, setIsSuccess] = (0, import_react.useState)(false);
+  const [fieldErrors, setFieldErrors] = (0, import_react.useState)({});
+  const [formData, setFormData] = (0, import_react.useState)({});
+  const [showMarketingConsent, setShowMarketingConsent] = (0, import_react.useState)(false);
+  const [submissionStartTime, setSubmissionStartTime] = (0, import_react.useState)(
     null
   );
-  const stylesInjectedRef = useRef(false);
+  const stylesInjectedRef = (0, import_react.useRef)(false);
   const config = {
     ...DEFAULT_CONFIG,
     siteSlug,
     sitePublicKey,
     ...configOverrides
   };
-  useEffect(() => {
+  (0, import_react.useEffect)(() => {
     if (stylesInjectedRef.current || document.getElementById("simple-leadform-styles")) {
       return;
     }
@@ -312,7 +338,7 @@ var SimpleLeadForm = ({
     document.head.appendChild(style2);
     stylesInjectedRef.current = true;
   }, [config.accentColorHex, config.theme]);
-  const handleInputChange = useCallback(
+  const handleInputChange = (0, import_react.useCallback)(
     (field, value) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
       if (fieldErrors[field]) {
@@ -325,7 +351,7 @@ var SimpleLeadForm = ({
     },
     [fieldErrors, config.requireMarketingConsent]
   );
-  const handleSubmit = useCallback(
+  const handleSubmit = (0, import_react.useCallback)(
     async (e) => {
       var _a, _b, _c, _d, _e, _f, _g, _h;
       e.preventDefault();
@@ -430,15 +456,15 @@ var SimpleLeadForm = ({
     ]
   );
   if (isSuccess && showSuccessMessage) {
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       "div",
       {
         className: `simple-leadform ${className}`,
         "data-theme": config.theme,
         "data-testid": `${dataTestId}-success`,
         style,
-        children: /* @__PURE__ */ jsxs("div", { className: "simple-leadform-success", children: [
-          /* @__PURE__ */ jsxs(
+        children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "simple-leadform-success", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
             "svg",
             {
               width: "48",
@@ -450,12 +476,12 @@ var SimpleLeadForm = ({
               style: { margin: "0 auto 16px", color: "#22c55e" },
               "data-testid": `${dataTestId}-success-icon`,
               children: [
-                /* @__PURE__ */ jsx("path", { d: "M22 11.08V12a10 10 0 1 1-5.93-9.14" }),
-                /* @__PURE__ */ jsx("polyline", { points: "22,4 12,14.01 9,11.01" })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M22 11.08V12a10 10 0 1 1-5.93-9.14" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("polyline", { points: "22,4 12,14.01 9,11.01" })
               ]
             }
           ),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "h3",
             {
               style: { margin: "0 0 8px 0" },
@@ -463,7 +489,7 @@ var SimpleLeadForm = ({
               children: config.successTitle
             }
           ),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "p",
             {
               style: {
@@ -479,7 +505,7 @@ var SimpleLeadForm = ({
       }
     );
   }
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
     "div",
     {
       className: `simple-leadform ${className}`,
@@ -487,13 +513,13 @@ var SimpleLeadForm = ({
       "data-testid": dataTestId,
       style,
       children: [
-        (config.title || config.subtitle) && /* @__PURE__ */ jsxs(
+        (config.title || config.subtitle) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
           "div",
           {
             className: "simple-leadform-header",
             "data-testid": `${dataTestId}-header`,
             children: [
-              config.title && /* @__PURE__ */ jsx(
+              config.title && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "h3",
                 {
                   className: "simple-leadform-title",
@@ -501,7 +527,7 @@ var SimpleLeadForm = ({
                   children: config.title
                 }
               ),
-              config.subtitle && /* @__PURE__ */ jsx(
+              config.subtitle && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "p",
                 {
                   className: "simple-leadform-subtitle",
@@ -512,7 +538,7 @@ var SimpleLeadForm = ({
             ]
           }
         ),
-        /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
           "form",
           {
             className: "simple-leadform-form",
@@ -526,13 +552,13 @@ var SimpleLeadForm = ({
                 handleInputChange,
                 dataTestId
               ),
-              /* @__PURE__ */ jsxs(
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                 "div",
                 {
                   className: "simple-leadform-field hidden",
                   "data-testid": `${dataTestId}-honeypot`,
                   children: [
-                    /* @__PURE__ */ jsx(
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                       "label",
                       {
                         className: "simple-leadform-label",
@@ -540,7 +566,7 @@ var SimpleLeadForm = ({
                         children: "Website"
                       }
                     ),
-                    /* @__PURE__ */ jsx(
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                       "input",
                       {
                         className: "simple-leadform-input",
@@ -562,7 +588,7 @@ var SimpleLeadForm = ({
                 showMarketingConsent,
                 dataTestId
               ),
-              /* @__PURE__ */ jsxs(
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                 "button",
                 {
                   type: "submit",
@@ -570,7 +596,7 @@ var SimpleLeadForm = ({
                   disabled: isSubmitting,
                   "data-testid": `${dataTestId}-submit-button`,
                   children: [
-                    /* @__PURE__ */ jsx(
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                       "span",
                       {
                         className: "simple-leadform-submit-text",
@@ -578,7 +604,7 @@ var SimpleLeadForm = ({
                         children: config.buttonText
                       }
                     ),
-                    /* @__PURE__ */ jsx(
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                       "div",
                       {
                         className: "simple-leadform-spinner",
@@ -654,13 +680,13 @@ function renderFields(config, formData, fieldErrors, handleInputChange, dataTest
       value,
       onChange: (e) => handleInputChange(fieldName, e.target.value)
     };
-    return /* @__PURE__ */ jsxs(
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
       "div",
       {
         className: "simple-leadform-field",
         "data-testid": `${dataTestId}-field-${fieldName}`,
         children: [
-          /* @__PURE__ */ jsxs(
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
             "label",
             {
               className: "simple-leadform-label",
@@ -672,14 +698,14 @@ function renderFields(config, formData, fieldErrors, handleInputChange, dataTest
               ]
             }
           ),
-          isTextarea ? /* @__PURE__ */ jsx(
+          isTextarea ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "textarea",
             {
               ...commonProps,
               className: "simple-leadform-input simple-leadform-textarea",
               "data-testid": `${dataTestId}-input-${fieldName}`
             }
-          ) : /* @__PURE__ */ jsx(
+          ) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "input",
             {
               ...commonProps,
@@ -688,7 +714,7 @@ function renderFields(config, formData, fieldErrors, handleInputChange, dataTest
               "data-testid": `${dataTestId}-input-${fieldName}`
             }
           ),
-          error && /* @__PURE__ */ jsx(
+          error && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "div",
             {
               className: "simple-leadform-error",
@@ -707,13 +733,13 @@ function renderConsentFields(config, formData, fieldErrors, handleInputChange, s
   if (config.requireConsent) {
     const consentError = fieldErrors.consent;
     consentFields.push(
-      /* @__PURE__ */ jsxs(
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
         "div",
         {
           className: "simple-leadform-field simple-leadform-checkbox-field",
           "data-testid": `${dataTestId}-field-consent`,
           children: [
-            /* @__PURE__ */ jsx(
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "input",
               {
                 type: "checkbox",
@@ -726,8 +752,8 @@ function renderConsentFields(config, formData, fieldErrors, handleInputChange, s
                 "data-testid": `${dataTestId}-checkbox-consent`
               }
             ),
-            /* @__PURE__ */ jsxs("div", { style: { flex: 1 }, children: [
-              /* @__PURE__ */ jsx(
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "label",
                 {
                   htmlFor: "simple-leadform-consent",
@@ -736,7 +762,7 @@ function renderConsentFields(config, formData, fieldErrors, handleInputChange, s
                   children: consentText
                 }
               ),
-              consentError && /* @__PURE__ */ jsx(
+              consentError && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "div",
                 {
                   className: "simple-leadform-error",
@@ -753,13 +779,13 @@ function renderConsentFields(config, formData, fieldErrors, handleInputChange, s
   }
   if (config.requireMarketingConsent && showMarketingConsent) {
     consentFields.push(
-      /* @__PURE__ */ jsxs(
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
         "div",
         {
           className: "simple-leadform-field simple-leadform-checkbox-field",
           "data-testid": `${dataTestId}-field-marketing-consent`,
           children: [
-            /* @__PURE__ */ jsx(
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "input",
               {
                 type: "checkbox",
@@ -774,7 +800,7 @@ function renderConsentFields(config, formData, fieldErrors, handleInputChange, s
                 "data-testid": `${dataTestId}-checkbox-marketing-consent`
               }
             ),
-            /* @__PURE__ */ jsx(
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "label",
               {
                 htmlFor: "simple-leadform-marketing-consent",
@@ -887,7 +913,8 @@ async function submitFormData(config, formData, submissionStartTime, mockSubmit)
     throw error;
   }
 }
-export {
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
   SimpleLeadForm
-};
-//# sourceMappingURL=simple.esm.js.map
+});
+//# sourceMappingURL=react.cjs.js.map

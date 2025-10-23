@@ -13,13 +13,14 @@ pnpm add @loubase/leadform-embed
 ## Basic Usage
 
 ```tsx
-import { SimpleLeadForm } from '@loubase/leadform-embed/simple'
+import { SimpleLeadForm } from '@loubase/leadform-embed/react'
 
 function ContactPage() {
   return (
     <div className="max-w-md mx-auto">
       <SimpleLeadForm
-        siteId="your-site-id"
+        siteSlug="your-site-slug"
+        sitePublicKey="your-public-key"
         title="Contact Us"
         fields={['name', 'email', 'message']}
         onSubmit={(data) => console.log('Form submitted:', data)}
@@ -46,7 +47,8 @@ The Simple Lead Form differs from the main `LeadForm` component in several impor
 
 ### Required Props
 
-- `siteId` (string): Your site identifier for the lead form service
+- `siteSlug` (string): Your site slug for the lead form service
+- `sitePublicKey` (string): Your site's public key for authentication
 
 ### Optional Props
 
@@ -55,7 +57,8 @@ All other props are optional and have sensible defaults:
 ```tsx
 interface SimpleLeadFormProps {
   // Core configuration
-  siteId: string
+  siteSlug: string
+  sitePublicKey: string
   title?: string                    // Default: "Get in touch"
   subtitle?: string                 // Default: "We'd love to hear from you..."
   fields?: string[]                 // Default: ['name', 'email', 'message']
@@ -111,7 +114,8 @@ function ContactSection() {
         </button>
       ) : (
         <SimpleLeadForm
-          siteId="your-site-id"
+          siteSlug="your-site-slug"
+        sitePublicKey="your-public-key"
           onSubmit={() => setShowForm(false)}
           onError={(error) => console.error(error)}
         />
@@ -213,7 +217,7 @@ If you're currently using the script-based embed and want to migrate to the Reac
 
 **After (React Simple):**
 ```tsx
-import { SimpleLeadForm } from '@loubase/leadform-embed/simple'
+import { SimpleLeadForm } from '@loubase/leadform-embed/react'
 
 <SimpleLeadForm
   siteId="your-site-id"

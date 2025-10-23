@@ -30,7 +30,8 @@ Add this script tag to your website:
   src="https://cdn.loubase.com/leadform/1.0.0/index.iife.min.js"
   integrity="sha384-PASTE_SRI_FROM_CI"
   crossorigin="anonymous"
-  data-site-id="YOUR_SITE_ID"
+  data-site-slug="YOUR_SITE_SLUG"
+  data-site-public-key="YOUR_PUBLIC_KEY"
   data-mode="floating"
   data-theme="auto"
   data-position="bottom-right"
@@ -52,7 +53,8 @@ npm install @loubase/leadform-embed
 import { LeadFormWidget } from '@loubase/leadform-embed';
 
 new LeadFormWidget({
-  siteId: 'your-site-id',
+  siteSlug: 'your-site-slug',
+  sitePublicKey: 'your-public-key',
   theme: 'auto',
   position: 'bottom-right',
   fields: ['name', 'email', 'company', 'message'],
@@ -65,23 +67,23 @@ new LeadFormWidget({
 
 ### React Component
 
-For React applications, use the dedicated React component:
+For React applications, use the React component:
 
 ```bash
 npm install @loubase/leadform-embed
 ```
 
 ```tsx
-import { LeadForm } from '@loubase/leadform-embed/react'
+import { SimpleLeadForm } from '@loubase/leadform-embed/react'
 
 function App() {
   return (
-    <LeadForm
-      siteId="your-site-id"
+    <SimpleLeadForm
+      siteSlug="your-site-slug"
+      sitePublicKey="your-public-key"
       title="Contact Us"
       fields={['name', 'email', 'message']}
       theme="auto"
-      position="bottom-right"
       onSubmit={(data) => console.log('Form submitted:', data)}
       onError={(error) => console.error('Form error:', error)}
     />
@@ -89,13 +91,14 @@ function App() {
 }
 ```
 
-👉 **[See complete React documentation](./REACT.md)**
+👉 **[See complete React documentation](./SIMPLE.md)**
 
 ## Configuration Options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `siteId` | `string` | **Required** | Your unique site identifier |
+| `siteSlug` | `string` | **Required** | Your unique site slug |
+| `sitePublicKey` | `string` | **Required** | Your site's public key |
 | `theme` | `'light' \| 'dark' \| 'auto'` | `'auto'` | Color theme |
 | `position` | `'bottom-right' \| 'bottom-left' \| 'top-right' \| 'top-left' \| 'center'` | `'bottom-right'` | Position of the form |
 | `fields` | `string[]` | `['name', 'email', 'message']` | Form fields to display |
@@ -142,8 +145,9 @@ The widget submits form data to your configured endpoint with this payload:
 
 ```json
 {
-  "siteId": "your-site-id",
-  "data": {
+  "siteSlug": "your-site-slug",
+  "sitePublicKey": "your-public-key",
+  "formData": {
     "name": "John Doe",
     "email": "john@example.com",
     "company": "Acme Corp",

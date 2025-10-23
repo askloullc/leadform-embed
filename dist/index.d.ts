@@ -1,3 +1,5 @@
+import React from 'react';
+
 type LeadFormWidgetConfig = LeadFormConfig & {
     position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left' | 'center';
     closeButtonLabel?: string;
@@ -38,6 +40,51 @@ interface LeadFormData {
     marketingConsent?: string;
     [key: string]: string | undefined;
 }
+
+interface SimpleLeadFormProps extends Partial<LeadFormConfig> {
+    siteSlug: string;
+    sitePublicKey: string;
+    onSubmit?: (data: {
+        data: LeadFormData;
+        result: any;
+    }) => void;
+    onError?: (error: {
+        type: string;
+        message: string;
+        error?: any;
+    }) => void;
+    className?: string;
+    style?: React.CSSProperties;
+    showSuccessMessage?: boolean;
+    dataTestId?: string;
+    mockSubmit?: boolean;
+}
+/**
+ * SimpleLeadForm - A React component that renders a lead capture form directly
+ *
+ * This is a simplified version that renders the form inline without any modal
+ * or floating behavior. The parent component is responsible for showing/hiding.
+ *
+ * @example
+ * ```tsx
+ * import { SimpleLeadForm } from '@loubase/leadform-embed/simple'
+ *
+ * function ContactPage() {
+ *   return (
+ *     <div className="max-w-md mx-auto">
+ *       <SimpleLeadForm
+ *         siteId="your-site-id"
+ *         title="Contact Us"
+ *         fields={['name', 'email', 'message']}
+ *         onSubmit={(data) => console.log('Form submitted:', data)}
+ *         onError={(error) => console.error('Form error:', error)}
+ *       />
+ *     </div>
+ *   )
+ * }
+ * ```
+ */
+declare const SimpleLeadForm: React.FC<SimpleLeadFormProps>;
 
 /**
  * LeadForm Embeddable Widget
@@ -99,4 +146,4 @@ declare global {
     }
 }
 
-export { type EventType, type LeadFormData, LeadFormWidget, type LeadFormWidgetConfig };
+export { type EventType, type LeadFormData, LeadFormWidget, type LeadFormWidgetConfig, SimpleLeadForm, type SimpleLeadFormProps };
