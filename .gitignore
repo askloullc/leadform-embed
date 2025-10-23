@@ -1,0 +1,154 @@
+.DS_Store
+bin/
+*/.env
+*/.env.local
+*/.env.development.local
+*/.env.test.local
+*/.env.production.local
+*/.save
+request*.json
+test-pod.yaml
+alert.rules
+*/reports/*
+*/reports/standards
+*/secrets/*
+debug_*.txt
+bureaucracy-client/cypress/screenshots/
+bureaucracy-client/cypress/downloads/
+deployments/cypress/
+content-client/cypress/screenshots/
+content-client/cypress/downloads/
+deployments/cycling-temporal.md
+.cursorrules
+*/coverage.out
+coverage.out
+coverage.html
+*.cover.out
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Analytics-specific files
+internal/analytics/airflow/logs/
+internal/analytics/airflow/__pycache__/
+internal/analytics/dbt/target/
+internal/analytics/dbt/dbt_packages/
+internal/analytics/dbt/logs/
+internal/analytics/snowflake/credentials/
+*.snowflake-connection
+.dbt/
+airflow.cfg
+airflow.db
+airflow-webserver.pid
+webserver_config.py
+
+# Schema-specific files
+pkg/events/generated/
+pkg/api/generated/
+docs/schemas/
+*.generated.go
+schemas/**/*.tmp
+
+# Development environment data
+dev-data/postgres/data/
+dev-data/redis/data/
+dev-data/kafka/data/
+dev-data/elasticsearch/data/
+dev-data/snowflake-mock/data/
+dev-data/nats/
+dev-data/minio/data/
+dev-data/grafana/data/
+dev-data/prometheus/data/
+dev-data/*/logs/
+dev-data/*/*.log
+
+# Monorepo - Node.js & Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Monorepo - Build artifacts
+packages/*/dist/
+packages/*/build/
+apps/*/dist/
+apps/*/.next/
+apps/*/build/
+apps/*/out/
+tools/*/dist/
+
+# Monorepo - Development
+.turbo/
+.next/
+*.tsbuildinfo
+.swc/
+.vite/
+*.local
+
+# Monorepo - Testing
+coverage/
+junit.xml
+test-results/
+playwright-report/
+test-results.xml
+
+# Monorepo - Storybook
+storybook-static/
+**/storybook-static/
+
+# Monorepo - Logs & Debugging
+*.log
+logs/
+.nyc_output/
+
+# Monorepo - Editor & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Monorepo - Temporary files
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# Monorepo - Package manager
+.npm/
+.yarn/
+.pnp.*
+
+# Monorepo - Environment specific
+.env
+.env.production
+.env.staging
+.env.development
+
+# Prettier cache
+.prettier-cache
+
+# cypress
+*.mp4
+*/screenshots/*
+*/videos/*
+cypress/downloads/*
+
+tsup.config.bundled*
+
+vendor/
+.jest-cache
+
+tests/e2e/tmp_postgres_bin/
+tests/e2e/tmp_postgres_data/
+tests/e2e/tmp_postgres/
+prompt-evaluation-results/
+
+*storybook.log
+
+**/__screenshots__/
+.npmrc

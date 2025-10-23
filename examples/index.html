@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadForm Embed - Examples</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+            background: #f8fafc;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .example {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .example h2 {
+            margin-top: 0;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        .code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 14px;
+        }
+        .inline-container {
+            border: 2px dashed #e2e8f0;
+            padding: 2rem;
+            border-radius: 8px;
+            background: #f8fafc;
+            margin: 1rem 0;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .dark {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        .dark .example {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .dark .inline-container {
+            background: #0f172a;
+            border-color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Toggle Dark Mode</button>
+    
+    <div class="container">
+        <h1>LeadForm Embed Widget - Examples</h1>
+        <p>Interactive examples of the LeadForm embed widget in different configurations.</p>
+
+        <div class="example">
+            <h2>1. Floating Mode (Default)</h2>
+            <p>A floating chat button appears in the bottom-right corner. Click it to open the form.</p>
+            <div class="code">
+&lt;script
+  src="../dist/index.iife.min.js"
+  data-site-id="demo-site-floating"
+  data-mode="floating"
+  data-theme="auto"
+  data-position="bottom-right"
+  data-fields="name,email,company,message"
+  data-title="Get in touch"
+  data-button-text="Contact us"
+  data-success-message="Thanks — we'll reply ASAP."
+  data-require-consent="true"
+&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>2. Inline Mode</h2>
+            <p>The form is embedded directly in the page content.</p>
+            <div class="code">
+&lt;div id="inline-form-container"&gt;&lt;/div&gt;
+&lt;script
+  src="../dist/index.iife.min.js"
+  data-site-id="demo-site-inline"
+  data-mode="inline"
+  data-theme="light"
+  data-fields="name,email,message"
+  data-title="Contact Us"
+  data-button-text="Send Message"
+  data-success-message="Message sent successfully!"
+  data-require-consent="false"
+&gt;&lt;/script&gt;
+            </div>
+            <div class="inline-container">
+                <p><strong>Inline form will appear here:</strong></p>
+                <div id="inline-form-container"></div>
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>3. Modal Mode</h2>
+            <p>Click the floating button to open the form in a modal overlay.</p>
+            <div class="code">
+&lt;script
+  src="../dist/index.iife.min.js"
+  data-site-id="demo-site-modal"
+  data-mode="modal"
+  data-theme="auto"
+  data-position="center"
+  data-fields="name,email,phone,company,message"
+  data-title="Request a Quote"
+  data-button-text="Submit Request"
+  data-success-message="We'll contact you within 24 hours!"
+  data-require-consent="true"
+&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>4. Custom Position</h2>
+            <p>Form positioned in the top-left corner with minimal fields.</p>
+            <div class="code">
+&lt;script
+  src="../dist/index.iife.min.js"
+  data-site-id="demo-site-topleft"
+  data-mode="floating"
+  data-theme="dark"
+  data-position="top-left"
+  data-fields="email,message"
+  data-title="Quick Contact"
+  data-button-text="Send"
+  data-success-message="Thanks for reaching out!"
+  data-require-consent="false"
+&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="example">
+            <h2>Programmatic Usage</h2>
+            <p>Creating widgets programmatically with JavaScript:</p>
+            <div class="code">
+// Import as ES module
+import { LeadFormWidget } from '@loubase/leadform-embed';
+
+// Or use the global API
+const widget = window.LeadForm.create({
+  siteId: 'your-site-id',
+  mode: 'floating',
+  theme: 'auto',
+  position: 'bottom-right',
+  fields: ['name', 'email', 'company', 'message'],
+  title: 'Get in touch',
+  buttonText: 'Contact us',
+  successMessage: 'Thanks — we\'ll reply ASAP.',
+  requireConsent: true
+});
+
+// Control the widget
+widget.show();
+widget.hide();
+widget.toggle();
+widget.destroy();
+            </div>
+            <button onclick="createProgrammaticWidget()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Create Programmatic Widget
+            </button>
+        </div>
+    </div>
+
+    <!-- Example implementations -->
+
+    <!-- Floating Mode -->
+    <script
+      src="../dist/index.iife.min.js"
+      data-site-id="demo-site-floating"
+      data-mode="floating"
+      data-theme="auto"
+      data-position="bottom-right"
+      data-fields="name,email,company,message"
+      data-title="Get in touch"
+      data-button-text="Contact us"
+      data-success-message="Thanks — we'll reply ASAP."
+      data-require-consent="true"
+    ></script>
+
+    <!-- Inline Mode -->
+    <script
+      src="../dist/index.iife.min.js"
+      data-site-id="demo-site-inline"
+      data-mode="inline"
+      data-theme="light"
+      data-fields="name,email,message"
+      data-title="Contact Us"
+      data-button-text="Send Message"
+      data-success-message="Message sent successfully!"
+      data-require-consent="false"
+    ></script>
+
+    <!-- Modal Mode -->
+    <script
+      src="../dist/index.iife.min.js"
+      data-site-id="demo-site-modal"
+      data-mode="modal"
+      data-theme="auto"
+      data-position="center"
+      data-fields="name,email,phone,company,message"
+      data-title="Request a Quote"
+      data-button-text="Submit Request"
+      data-success-message="We'll contact you within 24 hours!"
+      data-require-consent="true"
+    ></script>
+
+    <!-- Custom Position -->
+    <script
+      src="../dist/index.iife.min.js"
+      data-site-id="demo-site-topleft"
+      data-mode="floating"
+      data-theme="dark"
+      data-position="top-left"
+      data-fields="email,message"
+      data-title="Quick Contact"
+      data-button-text="Send"
+      data-success-message="Thanks for reaching out!"
+      data-require-consent="false"
+    ></script>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+        }
+
+        function createProgrammaticWidget() {
+            if (window.LeadForm) {
+                const widget = window.LeadForm.create({
+                    siteId: 'demo-programmatic',
+                    mode: 'floating',
+                    theme: 'auto',
+                    position: 'bottom-left',
+                    fields: ['name', 'email'],
+                    title: 'Programmatic Widget',
+                    buttonText: 'Submit',
+                    successMessage: 'Created programmatically!',
+                    requireConsent: false
+                });
+                alert('Programmatic widget created! Check bottom-left corner.');
+            } else {
+                alert('LeadForm is not loaded yet.');
+            }
+        }
+
+        // Mock API responses for demo
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+            if (url.includes('/leads') || url.includes('api.loubase.com')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({ success: true, id: 'demo-' + Date.now() })
+                });
+            }
+            return originalFetch.apply(this, arguments);
+        };
+    </script>
+</body>
+</html>

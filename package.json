@@ -1,0 +1,58 @@
+{
+  "name": "@loubase/leadform-embed",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "main": "dist/leadform.iife.min.js",
+  "module": "dist/leadform.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/leadform.esm.js",
+      "require": "./dist/leadform.iife.min.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.esm.js",
+      "require": "./dist/react.cjs.js"
+    },
+    "./simple": {
+      "types": "./dist/simple.d.ts",
+      "import": "./dist/simple.esm.js",
+      "require": "./dist/simple.cjs.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "pnpm run build:core && pnpm run build:simple",
+    "build:core": "tsup --config tsup.config.ts",
+    "build:simple": "tsup --config tsup.simple.config.ts",
+    "typecheck": "tsc --noEmit",
+    "dev": "concurrently \"pnpm run dev:core\" \"pnpm run dev:simple\"",
+    "dev:core": "tsup --config tsup.config.ts --watch",
+    "dev:simple": "tsup --config tsup.simple.config.ts --watch",
+    "preview": "pnpm run build && open dev-server.html",
+    "serve": "python3 -m http.server 3000",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "concurrently": "^9.0.0",
+    "react": "^18.0.0",
+    "tsup": "^8.1.0",
+    "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "keywords": ["lead-form", "embed", "widget", "conversion"],
+  "description": "Embeddable lead capture form widget for websites",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/askloullc/loubase",
+    "directory": "packages/leadform-embed"
+  },
+  "license": "UNLICENSED",
+  "author": "Lou LLC"
+}

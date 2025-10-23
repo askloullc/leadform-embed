@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadForm Widget - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f8fafc;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1e293b;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-section h2 {
+            margin-bottom: 1rem;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .control-group select,
+        .control-group input {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        .demo-button {
+            padding: 0.75rem 1.5rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .demo-button:hover {
+            background: #059669;
+        }
+        
+        .status {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .code-example {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        
+        .inline-target {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: #f9fafb;
+            margin: 1rem 0;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 LeadForm Widget Demo</h1>
+        
+        <!-- Quick Controls -->
+        <div class="demo-section">
+            <h2>Quick Test</h2>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="mode">Display Mode</label>
+                    <select id="mode">
+                        <option value="floating">Floating</option>
+                        <option value="modal">Modal</option>
+                        <option value="dialog">Dialog</option>
+                        <option value="drawer">Drawer</option>
+                        <option value="inline">Inline</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="theme">Theme</label>
+                    <select id="theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="position">Position (Floating/Modal)</label>
+                    <select id="position">
+                        <option value="bottom-right">Bottom Right</option>
+                        <option value="bottom-left">Bottom Left</option>
+                        <option value="top-right">Top Right</option>
+                        <option value="top-left">Top Left</option>
+                        <option value="center">Center</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="accentColor">Accent Color</label>
+                    <input type="color" id="accentColor" value="#3b82f6">
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="createWidget()">Create Widget</button>
+                <button class="btn btn-secondary" onclick="showWidget()">Show</button>
+                <button class="btn btn-secondary" onclick="hideWidget()">Hide</button>
+                <button class="btn btn-secondary" onclick="destroyWidget()">Destroy</button>
+            </div>
+            
+            <div id="status" class="status"></div>
+        </div>
+        
+        <!-- Mode Examples -->
+        <div class="grid-2">
+            <div class="demo-section">
+                <h2>🎯 Mode Examples</h2>
+                
+                <h3>Floating Widget (with trigger)</h3>
+                <button class="demo-button" onclick="testFloating()">Test Floating Mode</button>
+                <p><small>Creates a floating widget with bottom-right positioning and custom trigger button.</small></p>
+                
+                <h3>Modal Dialog</h3>
+                <button class="demo-button open-modal">Open Modal Form</button>
+                <p><small>Click triggers a centered modal dialog with overlay.</small></p>
+                
+                <h3>Side Drawer</h3>
+                <button class="demo-button open-drawer">Open Drawer Form</button>
+                <p><small>Slides in from the right side of the screen.</small></p>
+                
+                <h3>Dialog Popup</h3>
+                <button class="demo-button open-dialog">Open Dialog Form</button>
+                <p><small>Smaller popup dialog, good for quick contact forms.</small></p>
+                
+                <h3>Inline Form</h3>
+                <div id="inline-form-target" class="inline-target">
+                    <p>Inline form will appear here</p>
+                </div>
+                <button class="demo-button" onclick="testInline()">Load Inline Form</button>
+                <p><small>Embeds directly into page content.</small></p>
+            </div>
+            
+            <div class="demo-section">
+                <h2>⚙️ Configuration Options</h2>
+                
+                <h3>Fields Configuration</h3>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>fields: ['name', 'email', 'company', 'phone', 'message']</pre>
+                </div>
+                
+                <h3>Theme Options</h3>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>theme: 'light' | 'dark' | 'auto'
+accentColorHex: '#3b82f6'</pre>
+                </div>
+                
+                <h3>Consent & Privacy</h3>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>requireConsent: true
+requireMarketingConsent: true</pre>
+                </div>
+                
+                <h3>Anti-Spam Features</h3>
+                <div class="code-example">
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>honeypotFieldName: 'website_url'
+minSubmissionTime: 3000  // 3 seconds
+turnstileKey: 'your-cloudflare-key'</pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- API Examples -->
+        <div class="demo-section">
+            <h2>🔧 JavaScript API Examples</h2>
+            
+            <h3>Direct Widget Creation</h3>
+            <div class="code-example">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>// Direct instantiation
+const widget = new LeadFormWidget({
+    siteId: 'your-site-id',
+    theme: 'light',
+    position: 'bottom-right',
+    fields: ['name', 'email', 'company', 'message'],
+    title: 'Get in touch',
+    buttonText: 'Send message',
+    requireConsent: true
+});
+
+widget.show();
+widget.hide();
+widget.destroy();</pre>
+            </div>
+            
+            <h3>Global API Usage</h3>
+            <div class="code-example">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>// Mount with specific configuration
+const widget = LeadForm.mount({
+    enableModal: true,
+    modalTrigger: '.contact-btn',
+    props: {
+        siteId: 'demo',
+        theme: 'dark',
+        accentColorHex: '#10b981'
+    }
+});
+
+// Or use global open
+LeadForm.open({ 
+    mode: 'floating',
+    config: { theme: 'dark' }
+});</pre>
+            </div>
+            
+            <h3>Event Handling</h3>
+            <div class="code-example">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<pre>widget.on('submit', (data) => {
+    console.log('Form submitted:', data);
+});
+
+widget.on('open', () => {
+    console.log('Widget opened');
+});
+
+widget.on('close', () => {
+    console.log('Widget closed');
+});
+
+widget.on('error', (error) => {
+    console.log('Error occurred:', error);
+});</pre>
+            </div>
+        </div>
+        
+        <!-- Embed Code -->
+        <div class="demo-section">
+            <h2>📋 Current Embed Code</h2>
+            <div class="code-example">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <pre id="embedCode">Loading...</pre>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load the widget -->
+    <script src="dist/index.iife.min.js"></script>
+    <script>
+        let currentWidget = null;
+        
+        // Mock API for demo
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+            if (url.includes('/leads') || url.includes('api.loubase.com')) {
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve({
+                            ok: true,
+                            json: () => Promise.resolve({ 
+                                success: true, 
+                                id: 'demo-' + Date.now() 
+                            })
+                        });
+                    }, 1000);
+                });
+            }
+            return originalFetch.apply(this, arguments);
+        };
+        
+        function setStatus(message, type = 'success') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+        
+        function createWidget() {
+            // Destroy existing widget
+            if (currentWidget) {
+                currentWidget.destroy();
+            }
+            
+            const config = {
+                siteId: 'demo-site',
+                theme: document.getElementById('theme').value,
+                position: document.getElementById('position').value,
+                fields: ['name', 'email', 'company', 'message'],
+                title: 'Get in touch',
+                buttonText: 'Send message',
+                accentColorHex: document.getElementById('accentColor').value,
+                requireConsent: true,
+                requireMarketingConsent: true
+            };
+            
+            const mode = document.getElementById('mode').value;
+            
+            if (mode === 'inline') {
+                config.enableInline = true;
+                config.inlineTarget = '#inline-form-target';
+            } else {
+                config[`enable${mode.charAt(0).toUpperCase() + mode.slice(1)}`] = true;
+            }
+            
+            try {
+                currentWidget = new LeadFormWidget(config);
+                setStatus(`${mode} widget created successfully!`);
+                updateEmbedCode(config, mode);
+            } catch (error) {
+                setStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+        
+        function showWidget() {
+            if (currentWidget) {
+                currentWidget.show();
+                setStatus('Widget shown');
+            } else {
+                setStatus('Create a widget first!', 'error');
+            }
+        }
+        
+        function hideWidget() {
+            if (currentWidget) {
+                currentWidget.hide();
+                setStatus('Widget hidden');
+            } else {
+                setStatus('No widget to hide', 'error');
+            }
+        }
+        
+        function destroyWidget() {
+            if (currentWidget) {
+                currentWidget.destroy();
+                currentWidget = null;
+                setStatus('Widget destroyed');
+            } else {
+                setStatus('No widget to destroy', 'error');
+            }
+        }
+        
+        function testFloating() {
+            if (currentWidget) currentWidget.destroy();
+            
+            currentWidget = new LeadFormWidget({
+                siteId: 'demo-site',
+                enableFloating: true,
+                theme: 'light',
+                position: 'bottom-right',
+                fields: ['name', 'email', 'message'],
+                title: 'Quick Contact',
+                buttonText: 'Get in touch',
+                accentColorHex: '#10b981'
+            });
+            
+            setStatus('Floating widget created!');
+        }
+        
+        function testInline() {
+            // Clear existing inline content
+            document.getElementById('inline-form-target').innerHTML = '';
+            
+            const inlineWidget = new LeadFormWidget({
+                siteId: 'demo-site',
+                enableInline: true,
+                inlineTarget: '#inline-form-target',
+                theme: 'light',
+                fields: ['name', 'email', 'company', 'message'],
+                title: 'Contact Form',
+                buttonText: 'Submit',
+                subtitle: 'Fill out this form and we\'ll get back to you.',
+                accentColorHex: '#3b82f6'
+            });
+            
+            setStatus('Inline form loaded!');
+        }
+        
+        function updateEmbedCode(config, mode) {
+            const embedCode = `<script 
+    src="https://cdn.loubase.com/leadform/v1/leadform.min.js"
+    data-lead-form
+    data-site-id="${config.siteId}"
+    data-enable-${mode}="true"
+    data-theme="${config.theme}"
+    data-position="${config.position}"
+    data-fields="name,email,company,message"
+    data-title="${config.title}"
+    data-button-text="${config.buttonText}"
+    data-accent-color="${config.accentColorHex}"
+    data-require-consent="${config.requireConsent}"
+><\/script>`;
+            
+            document.getElementById('embedCode').textContent = embedCode;
+        }
+        
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 1000);
+            });
+        }
+        
+        // Setup trigger-based examples
+        document.addEventListener('DOMContentLoaded', () => {
+            // Modal example
+            const modalWidget = new LeadFormWidget({
+                siteId: 'demo-site',
+                enableModal: true,
+                modalTrigger: '.open-modal',
+                theme: 'light',
+                fields: ['name', 'email', 'message'],
+                title: 'Contact Us',
+                buttonText: 'Send Message'
+            });
+            
+            // Drawer example  
+            const drawerWidget = new LeadFormWidget({
+                siteId: 'demo-site',
+                enableDrawer: true,
+                drawerTrigger: '.open-drawer',
+                theme: 'dark',
+                fields: ['name', 'email', 'company', 'phone', 'message'],
+                title: 'Get Quote',
+                buttonText: 'Request Quote'
+            });
+            
+            // Dialog example
+            const dialogWidget = new LeadFormWidget({
+                siteId: 'demo-site',
+                enableDialog: true,
+                dialogTrigger: '.open-dialog',
+                theme: 'auto',
+                fields: ['name', 'email'],
+                title: 'Quick Contact',
+                buttonText: 'Submit'
+            });
+            
+            // Initialize embed code
+            updateEmbedCode({
+                siteId: 'demo-site',
+                theme: 'light',
+                position: 'bottom-right',
+                title: 'Get in touch',
+                buttonText: 'Send message',
+                accentColorHex: '#3b82f6',
+                requireConsent: true
+            }, 'floating');
+        });
+    </script>
+</body>
+</html>
